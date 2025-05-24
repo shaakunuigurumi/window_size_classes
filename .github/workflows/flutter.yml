@@ -29,12 +29,18 @@ jobs:
       - name: Run tests
         run: flutter test --coverage --no-pub --file-reporter json:tests.json
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Convert test results to JUnit format
         run: |
           dart pub global activate junitreport
           dart pub global run junitreport:tojunit --input tests.json --output junit.xml
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

@@ -1,0 +1,33 @@
+name: Flutter
+
+on:
+  push:
+    branches: [ "mistress" ]
+  pull_request:
+    branches: [ "mistress" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: subosito/flutter-action@v2.14.0
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        run: flutter analyze --no-congratulate --no-preamble --no-pub
+
+      - name: Run tests
+        run: flutter test --coverage --no-pub
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

@@ -30,6 +30,29 @@ void main() {
     });
   });
 
+  group('Comparable', () {
+    test('compact is smaller than medium', () {
+      expect(
+        WindowWidthClass.compact.compareTo(WindowWidthClass.medium),
+        lessThan(0),
+      );
+    });
+
+    test('medium is larger than compact', () {
+      expect(
+        WindowWidthClass.medium.compareTo(WindowWidthClass.compact),
+        greaterThan(0),
+      );
+    });
+
+    test('compact is equal to compact', () {
+      expect(
+        WindowWidthClass.compact.compareTo(WindowWidthClass.compact),
+        equals(0),
+      );
+    });
+  });
+
   group('MediaQuery', () {
     testWidgets('width class is compact in 250px media width',
         (WidgetTester tester) async {

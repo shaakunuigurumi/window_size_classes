@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/shaakunuigurumi/window_size_classes/graph/badge.svg?token=t2xpJp3YpI)](https://codecov.io/gh/shaakunuigurumi/window_size_classes)
+[![codecov](https://codecov.io/gh/shaakunuigurumi/window_size_classes/branch/mistress/graph/badge.svg?token=t2xpJp3YpI)](https://codecov.io/gh/shaakunuigurumi/window_size_classes)
 
 A Flutter package that provides window size classes as defined by Material Design 3. Inspired by Jetpack Compose.
 
@@ -45,7 +45,7 @@ Widget build(BuildContext context) {
     // Narrow layout: bottom navigation or drawer
     return Scaffold(
       body: content,
-      bottomNavigationBar: BottomNavigationBar(/* ... */),
+      bottomNavigationBar: NavigationBar(/* ... */),
     );
   }
 }

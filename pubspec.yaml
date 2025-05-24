@@ -1,7 +1,16 @@
 name: window_size_classes
 description: "A Flutter package which provides window size classes as defined by Material Design 3."
 version: 1.1.0
-homepage: https://github.com/shaakunuigurumi/window_size_classes.dart
+issue_tracker: https://github.com/shaakunuigurumi/window_size_classes.dart/issues
+repository: https://github.com/shaakunuigurumi/window_size_classes.dart
+
+screenshots:
+  - description: "Example app showing the window size class."
+    path: screenshots/example.webp
+
+topics:
+  - material
+  - material3
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

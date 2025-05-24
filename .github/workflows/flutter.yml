@@ -27,7 +27,12 @@ jobs:
         run: flutter analyze --no-congratulate --no-preamble --no-pub
 
       - name: Run tests
-        run: flutter test --coverage --no-pub
+        run: flutter test --coverage --no-pub --file-reporter json:tests.json
+
+      - name: Convert test results to JUnit format
+        run: |
+          dart pub global activate junitreport
+          dart pub global run junitreport:tojunit --input tests.json --output junit.xml
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5

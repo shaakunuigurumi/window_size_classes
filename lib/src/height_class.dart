@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
-
-import 'breakpoints.dart';
+import 'package:meta/meta.dart';
+import 'package:window_size_classes/src/breakpoints.dart';
+import 'package:window_size_classes/src/width_class.dart';
 
 /// Opinionated set of vertical viewport breakpoints.
 ///
@@ -56,8 +57,8 @@ enum WindowHeightClass implements Comparable<WindowHeightClass> {
 
   /// Expanded height class.
   ///
-  /// Applies to windows with height of [expandedHeightBreakpoint] (900 logical pixels) or
-  /// more.
+  /// Applies to windows with height of [expandedHeightBreakpoint] (900 logical
+  /// pixels) or more.
   ///
   /// Common devices:
   ///
@@ -82,6 +83,10 @@ enum WindowHeightClass implements Comparable<WindowHeightClass> {
   ///   // Adapt your layout based on available vertical space...
   /// }
   /// ```
+  @useResult
+  @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   static WindowHeightClass of(BuildContext context) {
     return fromHeight(MediaQuery.sizeOf(context).height);
   }
@@ -96,6 +101,7 @@ enum WindowHeightClass implements Comparable<WindowHeightClass> {
   /// final heightClass = WindowHeightClass.fromHeight(600); // Returns medium
   /// final heightClass = WindowHeightClass.fromHeight(1000); // Returns expanded
   /// ```
+  @useResult
   static WindowHeightClass fromHeight(num height) {
     return switch (height) {
       >= expandedHeightBreakpoint => WindowHeightClass.expanded,
@@ -104,14 +110,39 @@ enum WindowHeightClass implements Comparable<WindowHeightClass> {
     };
   }
 
+  /// Whether this height class is smaller than [other].
+  ///
+  /// Returns `true` if this height class is smaller than [other].
+  /// Returns `false` if this height class is greater than or equal to [other].
   bool operator <(WindowHeightClass other) => index < other.index;
 
+  /// Whether this height class is smaller than or equal to [other].
+  ///
+  /// Returns `true` if this height class is smaller than or equal to [other].
+  /// Returns `false` if this height class is greater than [other].
   bool operator <=(WindowHeightClass other) => index <= other.index;
 
+  /// Whether this height class is greater than [other].
+  ///
+  /// Returns `true` if this height class is greater than [other].
+  /// Returns `false` if this height class is smaller than or equal to [other].
   bool operator >(WindowHeightClass other) => index > other.index;
 
+  /// Whether this height class is greater than or equal to [other].
+  ///
+  /// Returns `true` if this height class is greater than or equal to [other].
+  /// Returns `false` if this height class is smaller than [other].
   bool operator >=(WindowHeightClass other) => index >= other.index;
 
+  /// Compares this [WindowHeightClass] to [other].
+  ///
+  /// Returns a negative integer if this [WindowHeightClass] represents a
+  /// smaller height than [other], zero if they represent the same height class,
+  /// or a positive integer if this [WindowHeightClass] represents a larger
+  /// height than [other].
   @override
+  @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int compareTo(WindowHeightClass other) => index.compareTo(other.index);
 }

@@ -1,3 +1,6 @@
+import 'package:window_size_classes/src/height_class.dart';
+import 'package:window_size_classes/src/width_class.dart';
+
 /// The minimum width for [WindowWidthClass.medium] layouts.
 ///
 /// Screens smaller than this value use [WindowWidthClass.compact].

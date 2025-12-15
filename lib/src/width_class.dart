@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:meta/meta.dart';
 
-import 'breakpoints.dart';
+import 'package:window_size_classes/src/breakpoints.dart';
+import 'package:window_size_classes/src/height_class.dart';
 
 /// Opinionated set of horizontal viewport breakpoints.
 ///
@@ -33,7 +35,7 @@ enum WindowWidthClass implements Comparable<WindowWidthClass> {
   /// See also:
   ///
   ///  * <https://m3.material.io/foundations/layout/applying-layout/compact>
-  compact(spacing: 16.0),
+  compact(spacing: 16),
 
   /// Medium window width.
   ///
@@ -49,7 +51,7 @@ enum WindowWidthClass implements Comparable<WindowWidthClass> {
   /// See also:
   ///
   ///  * <https://m3.material.io/foundations/layout/applying-layout/medium>
-  medium(spacing: 24.0),
+  medium(spacing: 24),
 
   /// Expanded window width.
   ///
@@ -69,7 +71,7 @@ enum WindowWidthClass implements Comparable<WindowWidthClass> {
   /// See also:
   ///
   ///  * <https://m3.material.io/foundations/layout/applying-layout/expanded>
-  expanded(spacing: 24.0),
+  expanded(spacing: 24),
 
   /// Large window width.
   ///
@@ -86,7 +88,7 @@ enum WindowWidthClass implements Comparable<WindowWidthClass> {
   /// See also:
   ///
   ///  * <https://m3.material.io/foundations/layout/applying-layout/large-extra-large>
-  large(spacing: 24.0, fixedPaneWidth: 360.0),
+  large(spacing: 24, fixedPaneWidth: 360),
 
   /// Extra large window width.
   ///
@@ -104,7 +106,11 @@ enum WindowWidthClass implements Comparable<WindowWidthClass> {
   /// See also:
   ///
   ///  * <https://m3.material.io/foundations/layout/applying-layout/large-extra-large>
-  extraLarge(spacing: 24.0, fixedPaneWidth: 412.0);
+  extraLarge(spacing: 24, fixedPaneWidth: 412);
+
+  /// Creates a window width class with the given [spacing] and optional
+  /// [fixedPaneWidth].
+  const WindowWidthClass({required this.spacing, this.fixedPaneWidth});
 
   /// Value used for layout margin and pane spacing.
   final double spacing;
@@ -113,10 +119,6 @@ enum WindowWidthClass implements Comparable<WindowWidthClass> {
   ///
   /// When not null, this value suggests a width for fixed panes.
   final double? fixedPaneWidth;
-
-  /// Creates a window width class with the given [spacing] and optional
-  /// [fixedPaneWidth].
-  const WindowWidthClass({required this.spacing, this.fixedPaneWidth});
 
   /// Returns the [WindowWidthClass] for the current screen width.
   ///
@@ -131,6 +133,8 @@ enum WindowWidthClass implements Comparable<WindowWidthClass> {
   ///   // Use widthClass to adapt your layout...
   /// }
   /// ```
+  @useResult
+  @pragma('vm:prefer-inline')
   static WindowWidthClass of(BuildContext context) {
     return fromWidth(MediaQuery.sizeOf(context).width);
   }
@@ -145,6 +149,7 @@ enum WindowWidthClass implements Comparable<WindowWidthClass> {
   /// final widthClass = WindowWidthClass.fromWidth(800); // Returns medium
   /// final widthClass = WindowWidthClass.fromWidth(1400); // Returns large
   /// ```
+  @useResult
   static WindowWidthClass fromWidth(num width) {
     return switch (width) {
       >= extraLargeWidthBreakpoint => WindowWidthClass.extraLarge,
@@ -155,14 +160,39 @@ enum WindowWidthClass implements Comparable<WindowWidthClass> {
     };
   }
 
+  /// Whether this height class is smaller than [other].
+  ///
+  /// Returns `true` if this height class is smaller than [other].
+  /// Returns `false` if this height class is greater than or equal to [other].
   bool operator <(WindowWidthClass other) => index < other.index;
 
+  /// Whether this height class is smaller than or equal to [other].
+  ///
+  /// Returns `true` if this height class is smaller than or equal to [other].
+  /// Returns `false` if this height class is greater than [other].
   bool operator <=(WindowWidthClass other) => index <= other.index;
 
+  /// Whether this height class is greater than [other].
+  ///
+  /// Returns `true` if this height class is greater than [other].
+  /// Returns `false` if this height class is smaller than or equal to [other].
   bool operator >(WindowWidthClass other) => index > other.index;
 
+  /// Whether this height class is greater than or equal to [other].
+  ///
+  /// Returns `true` if this height class is greater than or equal to [other].
+  /// Returns `false` if this height class is smaller than [other].
   bool operator >=(WindowWidthClass other) => index >= other.index;
 
+  /// Compares this [WindowWidthClass] to [other].
+  ///
+  /// Returns a negative integer if this [WindowWidthClass] represents a smaller
+  /// width than [other], zero if they represent the same width class, or a
+  /// positive integer if this [WindowWidthClass] represents a larger width than
+  /// [other].
   @override
+  @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int compareTo(WindowWidthClass other) => index.compareTo(other.index);
 }
